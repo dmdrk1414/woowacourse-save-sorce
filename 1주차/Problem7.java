@@ -9,14 +9,12 @@ public class Problem7 {
 
     public static List<String> solution(String user, List<List<String>> friends, List<String> visitors) {
         List<String> answer = new ArrayList<>();
-        System.out.println("user = " + user);
 
         // user와 친구가 아닌것을 걸러야된다.
         ArrayList<String> notFriendUserList = new ArrayList<>();
         ArrayList<String> friendUserList = new ArrayList<>();
         ArrayList<String> personList = new ArrayList<>();
         ArrayList<String> allFriendsVisitors = new ArrayList<>();
-        ArrayList<String> notFriendAndVisitorUserList = new ArrayList<>();
 
 
         List<String> listAtNow = null;
@@ -34,21 +32,19 @@ public class Problem7 {
             rightFriendsInList = listAtNow.get(RIGHT_FRIEND);
 
             // user의 친구면? FriendUserListdp 넣는다.
-            if (Objects.equals(user, leftFriendsInList)) {
+            if (strAddressEquals(user, leftFriendsInList)) {
                 friendUserList.add(rightFriendsInList);
             }
-            if (Objects.equals(user, rightFriendsInList)) {
+            if (strAddressEquals(user, rightFriendsInList)) {
                 friendUserList.add(leftFriendsInList);
             }
             personList.add(leftFriendsInList);
             personList.add(rightFriendsInList);
         }
 
-        personList = (ArrayList<String>) personList.stream().distinct().collect(Collectors.toList());
-        System.out.println("personList.toString() = " + personList.toString());
+        personList = (ArrayList<String>) deduplicationList(personList);
 
-        friendUserList = (ArrayList<String>) friendUserList.stream().distinct().collect(Collectors.toList());
-        System.out.println("friendUserList.toString() = " + friendUserList.toString());
+        friendUserList = (ArrayList<String>) deduplicationList(friendUserList);
 
         // 친구가 아닌 리스트를 만든다.
         boolean isFriend = true;
@@ -69,11 +65,7 @@ public class Problem7 {
             }
         }
 
-        notFriendUserList = (ArrayList<String>) notFriendUserList.stream().distinct().collect(Collectors.toList());
-        System.out.println("notFriendUserList.toString() = " + notFriendUserList.toString());
-
-        // personList, friendUserList, notFriendUserList 구현 완료
-        System.out.println("visitors = " + visitors);
+        notFriendUserList = (ArrayList<String>) deduplicationList(notFriendUserList);
 
         // notFriendUserList의 우선순위를 가진 map을 구현
         Map<String, Integer> priorityNotFriendMap = new HashMap<>();
@@ -81,12 +73,6 @@ public class Problem7 {
         for (int notFriendUserIndex = 0; notFriendUserIndex < endNotFriendSize; notFriendUserIndex++) {
             String nameNotFriend = notFriendUserList.get(notFriendUserIndex);
             priorityNotFriendMap.put(nameNotFriend, 10);
-        }
-
-        System.out.println();
-        System.out.println("priorityNotFriendMap의 키 값");
-        for (Map.Entry<String, Integer> entry : priorityNotFriendMap.entrySet()) {
-            System.out.println("[key]:" + entry.getKey() + ", [value]:" + entry.getValue());
         }
 
         // User의 친구와 User의 친구가 아닌것과 Visitor의 전체 배열 연관된 모든사람 List만듬
@@ -99,8 +85,7 @@ public class Problem7 {
             allFriendsVisitors.add(nameVisitor);
         }
 
-        allFriendsVisitors = (ArrayList<String>) allFriendsVisitors.stream().distinct().collect(Collectors.toList());
-        System.out.println("allFriendsVisitors.toString() = " + allFriendsVisitors.toString());
+        allFriendsVisitors = (ArrayList<String>) deduplicationList(allFriendsVisitors);
 
         // visitor들의 방문횟수를 가져왔다.
         Map<String, Integer> cntVisitorMap = new HashMap<>();
@@ -112,11 +97,6 @@ public class Problem7 {
                 int numBeforValue = cntVisitorMap.get(nameVisitor);
                 cntVisitorMap.put(nameVisitor, numBeforValue + 1);
             }
-        }
-        System.out.println();
-        System.out.println("cntVisitorMap의 키 값");
-        for (Map.Entry<String, Integer> entry : cntVisitorMap.entrySet()) {
-            System.out.println("[key]:" + entry.getKey() + ", [value]:" + entry.getValue());
         }
 
         // 친구가 아닌 visitor들의 방문횟수를 가져왔다.
@@ -137,11 +117,6 @@ public class Problem7 {
                 cntNotFrendsVisitorMap.put(nameVisitor, cntPriorityVisitor);
             }
         }
-        System.out.println();
-        System.out.println("cntNotFrendsVisitorMap의 키 값");
-        for (Map.Entry<String, Integer> entry : cntNotFrendsVisitorMap.entrySet()) {
-            System.out.println("[key]:" + entry.getKey() + ", [value]:" + entry.getValue());
-        }
 
         // 이제 전체적  priorityNotFriendMap과 cntVisitorMap의 값을 합쳐야합니다.
         Map<String, Integer> priorityAllNotFriendMap = new HashMap<>();
@@ -151,13 +126,6 @@ public class Problem7 {
             int priorityNotFrendsVisitor = entry.getValue();
             priorityAllNotFriendMap.put(nameNotFrendsVisitor, priorityNotFrendsVisitor);
         }
-
-        System.out.println();
-        System.out.println("priorityAllNotFriendMap의 키 값");
-        for (Map.Entry<String, Integer> entry : priorityAllNotFriendMap.entrySet()) {
-            System.out.println("[key]:" + entry.getKey() + ", [value]:" + entry.getValue());
-        }
-
 
         // 우선순위로 정렬
         List<String> keySet = new ArrayList<>(priorityAllNotFriendMap.keySet());
@@ -169,14 +137,20 @@ public class Problem7 {
                 return (priorityAllNotFriendMap.get(o2) - priorityAllNotFriendMap.get(o1));
             }
         });
-        System.out.println();
         List<String> resultList = new ArrayList<>();
         for (String key : keySet) {
             resultList.add(key);
         }
-        System.out.println("resultList.toString() = " + resultList.toString());
 
         answer.addAll(resultList);
         return answer;
+    }
+
+    private static List<String> deduplicationList(ArrayList<String> List) {
+        return List.stream().distinct().collect(Collectors.toList());
+    }
+
+    private static boolean strAddressEquals(String user, String leftFriendsInList) {
+        return Objects.equals(user, leftFriendsInList);
     }
 }
