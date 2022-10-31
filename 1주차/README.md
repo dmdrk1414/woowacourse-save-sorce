@@ -6,11 +6,69 @@
 
 ## 🎈문제를 풀면서 생각한 다시 공부를 해야하는 것들을 정리했어요 😁😁
 
-1. entry 다시 보기
-2. map 순환하는 법 다시 보기
-3. ./gradlew clean test 가 무슨 명령어 인지 확인하기
-4. 정규표현식 다시 확인
-5. 문자열 equals 다시 보기
+1. #### entry 다시 보기
+
+   1. ```java
+      // List set의 다양성을 위해 Collection으로 클래스 정의 
+      public static   void printIterator(Collection<Integer> collection) {
+              Iterator it = collection.iterator();
+              while (it.hasNext()) {
+                  System.out.println(it.next());
+              }
+          }
+      }
+      ```
+
+   2. 
+
+2. #### List set map 다시 공부
+
+3. #### map 순환하는 법 다시 보기
+
+   - map을 초기화 하는 방법
+
+   - ```java
+            Map <String, Integer> map = new HashMap<>(){
+                 {
+                     put("하나", 1);
+                     put("둘", 2);
+                     put("삼", 3);
+                 }
+             };
+             map.put("사", 4);
+             System.out.println("map.toString() = " + map.toString());
+     
+      // map.of를 이용한 초기화는 변경 불가능 ImmutableCollections.java:71)
+             Map <String, Integer> map2 = Map.of(
+                     "하나", 1,
+                     "둘", 2,
+                     "삼", 3
+             );
+             // map.of를 이용한 초기화는 변경 불가능 ImmutableCollections.java:71)
+             map2.put("사", 4);
+             System.out.println(map2.toString());
+     ```
+
+   - 
+
+4. #### ./gradlew clean test 가 무슨 명령어 인지 확인하기
+
+5. #### 정규표현식 다시 확인
+
+6. #### stream 공부
+
+7. #### 문자열 equals 다시 보기
+
+   - Object - equals
+     - equals메서드는 **객체의 주소를 비교를 합니다.** 
+     - **인스턴스의 멤버 변수의 값을** 비교하기 위해서는 **오버라이딩을** 해야합니다.
+   - 그외 - equals
+     - 모든 것은 Object의 equals를 오버라이딩 한것입니다. 값을 비교한다고 생각하면 되는 것같아요.
+   - hashcode
+     - Object
+       - 주소기반으로 해시코드 반환(암호) 무조건 다르다 하지만 64비트 컴퓨터는 같을수 있다
+     - 그외
+       - 값으로 해시코드를 만들었다  같은 값의 String 2개를 생성하고 해시코드를 비교하면 같다.
 
 ## 🎈다시 자바의 정석 공부를 하면서 정리를 해야 겠습니다. ㅎㅎ😋 
 
