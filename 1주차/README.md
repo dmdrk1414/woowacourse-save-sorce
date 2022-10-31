@@ -8,22 +8,69 @@
 
 1. #### entry 다시 보기
 
-   1. ```java
-      // List set의 다양성을 위해 Collection으로 클래스 정의 
-      public static   void printIterator(Collection<Integer> collection) {
-              Iterator it = collection.iterator();
+   2. 
+
+2. #### iterator 사용
+
+   1. **iterator 메서드**
+
+      - ![image-20221101082143083](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221101082143083.png)
+
+   2. ListIterator
+
+      - ![image-20221101082347731](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221101082347731.png)
+
+   3. ```java
+      //  1. map의 iterator 사용
+          private static void printEntrySet(Map map) {
+              Iterator it = map.entrySet().iterator();
               while (it.hasNext()) {
                   System.out.println(it.next());
               }
           }
-      }
+      
+      //  2. list의 iterator 사용     Collection을 오버라이딩을 하여도 괜찮다.
+          public static   void printIterator(Collection collection) {
+              Iterator it = collection.iterator();
+              while (it.hasNext()) {
+                  System.out.println(it.next());
+      
+      //             it.next의 리턴값은 Object이다.
+      //            Object obj = it.next();
+      //            System.out.println(obj);
+              }
+          }
+      
+      
+      
+      //  3. list의 ListIterator 양방향 검색
+          public static   void printListIterator(List list){
+              ListIterator it = list.listIterator();
+              while (it.hasNext()) {
+                  System.out.println("it.next() = " + it.next());
+              }
+              System.out.println( );
+      
+              // 역순 출력
+              while (it.hasPrevious()) {
+                  System.out.println("it.previous() = " + it.previous());
+              }
+              System.out.println( );
+          }
+      
+      // 4. iterator의 remove 메서드; => [3, 4, 5, 6, 7, 8, 9, 10]
+         public static   void removeIterator(Collection collection) {
+              Iterator it = collection.iterator();
+              it.next();
+              it.remove();
+              it.next();
+              it.remove();
+          }
       ```
 
-   2. 
+3. #### List set map 다시 공부
 
-2. #### List set map 다시 공부
-
-3. #### map 순환하는 법 다시 보기
+4. #### map 순환하는 법 다시 보기
 
    - map을 초기화 하는 방법
 
@@ -37,7 +84,7 @@
              };
              map.put("사", 4);
              System.out.println("map.toString() = " + map.toString());
-     
+       
       // map.of를 이용한 초기화는 변경 불가능 ImmutableCollections.java:71)
              Map <String, Integer> map2 = Map.of(
                      "하나", 1,
@@ -51,13 +98,13 @@
 
    - 
 
-4. #### ./gradlew clean test 가 무슨 명령어 인지 확인하기
+5. #### ./gradlew clean test 가 무슨 명령어 인지 확인하기
 
-5. #### 정규표현식 다시 확인
+6. #### 정규표현식 다시 확인
 
-6. #### stream 공부
+7. #### stream 공부
 
-7. #### 문자열 equals 다시 보기
+8. #### 문자열 equals 다시 보기
 
    - Object - equals
      - equals메서드는 **객체의 주소를 비교를 합니다.** 
