@@ -6,116 +6,173 @@
 
 ## 🎈문제를 풀면서 생각한 다시 공부를 해야하는 것들을 정리했어요 😁😁
 
-1. #### entry 다시 보기
+#### 1. map key 값으로 정렬하기
 
-   2. 
+1. ```java
+   public static void main(String[] args) {
+   		// Map 선언
+   		Map<Integer, String> testMap = new HashMap<Integer, String>();
+   
+   		// Map에 데이터 추가
+   		testMap.put( 1, "apple");
+   		testMap.put( 4, "pineapple");
+   		testMap.put( 2, "orange");
+   		testMap.put( 5, "strawberry");
+   		testMap.put( 3, "melon");
+   
+   		// 키로 정렬
+   		Object[] mapkey = testMap.keySet().toArray();
+   		Arrays.sort(mapkey);
+   
+   		// 결과 출력
+   		for (Integer nKey : testMap.keySet())
+   		{
+   			System.out.println(testMap.get(nKey));
+   		}
+   	}
+   ```
 
-2. #### iterator 사용
+   
 
-   1. **iterator 메서드**
+#### 2. entry 다시 보기
 
-      - ![image-20221101082143083](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221101082143083.png)
+2. ![image-20221101082906643](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221101082906643.png)
 
-   2. ListIterator
+#### 3. iterator 사용
 
-      - ![image-20221101082347731](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221101082347731.png)
+1. **iterator 메서드**
 
-   3. ```java
-      //  1. map의 iterator 사용
-          private static void printEntrySet(Map map) {
-              Iterator it = map.entrySet().iterator();
-              while (it.hasNext()) {
-                  System.out.println(it.next());
+   - ![image-20221101082143083](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221101082143083.png)
+
+2. ListIterator
+
+   - ![image-20221101082347731](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221101082347731.png)
+
+3. ```java
+   //  1. map의 iterator 사용
+       private static void printEntrySet(Map map) {
+           Iterator it = map.entrySet().iterator();
+           while (it.hasNext()) {
+               System.out.println(it.next());
+           }
+       }
+   
+   //  2. list의 iterator 사용     Collection을 오버라이딩을 하여도 괜찮다.
+       public static   void printIterator(Collection collection) {
+           Iterator it = collection.iterator();
+           while (it.hasNext()) {
+               System.out.println(it.next());
+   
+   //             it.next의 리턴값은 Object이다.
+   //            Object obj = it.next();
+   //            System.out.println(obj);
+           }
+       }
+   
+   
+   
+   //  3. list의 ListIterator 양방향 검색
+       public static   void printListIterator(List list){
+           ListIterator it = list.listIterator();
+           while (it.hasNext()) {
+               System.out.println("it.next() = " + it.next());
+           }
+           System.out.println( );
+   
+           // 역순 출력
+           while (it.hasPrevious()) {
+               System.out.println("it.previous() = " + it.previous());
+           }
+           System.out.println( );
+       }
+   
+   // 4. iterator의 remove 메서드; => [3, 4, 5, 6, 7, 8, 9, 10]
+      public static   void removeIterator(Collection collection) {
+           Iterator it = collection.iterator();
+           it.next();
+           it.remove();
+           it.next();
+           it.remove();
+       }
+   ```
+
+#### 4. List set map 다시 공부
+
+#### 5. map 순환하는 법 다시 보기
+
+- map을 초기화 하는 방법
+
+- ```java
+         Map <String, Integer> map = new HashMap<>(){
+              {
+                  put("하나", 1);
+                  put("둘", 2);
+                  put("삼", 3);
               }
-          }
-      
-      //  2. list의 iterator 사용     Collection을 오버라이딩을 하여도 괜찮다.
-          public static   void printIterator(Collection collection) {
-              Iterator it = collection.iterator();
-              while (it.hasNext()) {
-                  System.out.println(it.next());
-      
-      //             it.next의 리턴값은 Object이다.
-      //            Object obj = it.next();
-      //            System.out.println(obj);
-              }
-          }
-      
-      
-      
-      //  3. list의 ListIterator 양방향 검색
-          public static   void printListIterator(List list){
-              ListIterator it = list.listIterator();
-              while (it.hasNext()) {
-                  System.out.println("it.next() = " + it.next());
-              }
-              System.out.println( );
-      
-              // 역순 출력
-              while (it.hasPrevious()) {
-                  System.out.println("it.previous() = " + it.previous());
-              }
-              System.out.println( );
-          }
-      
-      // 4. iterator의 remove 메서드; => [3, 4, 5, 6, 7, 8, 9, 10]
-         public static   void removeIterator(Collection collection) {
-              Iterator it = collection.iterator();
-              it.next();
-              it.remove();
-              it.next();
-              it.remove();
-          }
-      ```
+          };
+          map.put("사", 4);
+          System.out.println("map.toString() = " + map.toString());
+        
+   // map.of를 이용한 초기화는 변경 불가능 ImmutableCollections.java:71)
+          Map <String, Integer> map2 = Map.of(
+                  "하나", 1,
+                  "둘", 2,
+                  "삼", 3
+          );
+          // map.of를 이용한 초기화는 변경 불가능 ImmutableCollections.java:71)
+          map2.put("사", 4);
+          System.out.println(map2.toString());
+  ```
 
-3. #### List set map 다시 공부
+#### 6. 정규표현식 다시 확인
 
-4. #### map 순환하는 법 다시 보기
+#### 7. stream 공부
 
-   - map을 초기화 하는 방법
+#### 8. 문자열 equals 다시 보기
 
-   - ```java
-            Map <String, Integer> map = new HashMap<>(){
-                 {
-                     put("하나", 1);
-                     put("둘", 2);
-                     put("삼", 3);
-                 }
-             };
-             map.put("사", 4);
-             System.out.println("map.toString() = " + map.toString());
-       
-      // map.of를 이용한 초기화는 변경 불가능 ImmutableCollections.java:71)
-             Map <String, Integer> map2 = Map.of(
-                     "하나", 1,
-                     "둘", 2,
-                     "삼", 3
-             );
-             // map.of를 이용한 초기화는 변경 불가능 ImmutableCollections.java:71)
-             map2.put("사", 4);
-             System.out.println(map2.toString());
-     ```
+- Object - equals
+  - equals메서드는 **객체의 주소를 비교를 합니다.** 
+  - **인스턴스의 멤버 변수의 값을** 비교하기 위해서는 **오버라이딩을** 해야합니다.
+- 그외 - equals
+  - 모든 것은 Object의 equals를 오버라이딩 한것입니다. 값을 비교한다고 생각하면 되는 것같아요.
+- hashcode
+  - Object
+    - 주소기반으로 해시코드 반환(암호) 무조건 다르다 하지만 64비트 컴퓨터는 같을수 있다
+  - 그외
+    - 값으로 해시코드를 만들었다  같은 값의 String 2개를 생성하고 해시코드를 비교하면 같다.
 
-   - 
+#### 9. comparator class 다시보기.
 
-5. #### ./gradlew clean test 가 무슨 명령어 인지 확인하기
+#### 10. 예외 처리
 
-6. #### 정규표현식 다시 확인
+- <img src="C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102131300569.png" alt="image-20221102131300569" style="zoom:80%;" />
+- 예외 처리 방법 Problem_1
+  - ![image-20221102132054363](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102132054363.png)
+- 예외 처리 방법 Problem_2
+  - <img src="C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102132929362.png" alt="image-20221102132929362" style="zoom:80%;" />
+- 예외 처리 방법 Problem_3
+  - <img src="C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102135146090.png" alt="image-20221102135146090" style="zoom:80%;" />
+- 예외 처리 방법 Problem_4
+  - <img src="C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102135404800.png" alt="image-20221102135404800" style="zoom:80%;" />
+- 예외 처리 방법 Problem_5
+  - ![image-20221102140126377](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102140126377.png)
 
-7. #### stream 공부
+- 예외 처리 방법 Problem_6
+  - <img src="C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102140716529.png" alt="image-20221102140716529" style="zoom:80%;" />
 
-8. #### 문자열 equals 다시 보기
+- 예외 처리 방법 Problem_7
 
-   - Object - equals
-     - equals메서드는 **객체의 주소를 비교를 합니다.** 
-     - **인스턴스의 멤버 변수의 값을** 비교하기 위해서는 **오버라이딩을** 해야합니다.
-   - 그외 - equals
-     - 모든 것은 Object의 equals를 오버라이딩 한것입니다. 값을 비교한다고 생각하면 되는 것같아요.
-   - hashcode
-     - Object
-       - 주소기반으로 해시코드 반환(암호) 무조건 다르다 하지만 64비트 컴퓨터는 같을수 있다
-     - 그외
-       - 값으로 해시코드를 만들었다  같은 값의 String 2개를 생성하고 해시코드를 비교하면 같다.
+  - 7_1
+
+  - ![image-20221102141335570](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102141335570.png)
+
+  - 7_2
+  - ![image-20221102141613568](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102141613568.png)
+
+  - 7_3
+  - ![image-20221102141754410](C:\Users\Park-Seung-Chan\AppData\Roaming\Typora\typora-user-images\image-20221102141754410.png)
+
+
 
 ## 🎈다시 자바의 정석 공부를 하면서 정리를 해야 겠습니다. ㅎㅎ😋 
 
@@ -177,6 +234,9 @@ list와 2차 배열에 대한 생각을 많이 할수있어서 재미있었습�
 분할을 할 자신이 없습니다.
 기능을 하나하나 쪼개서 구현을 했습니다. 
 map을 이용한적이 별로 없었는데 연습을 해야한다는 생각을 했습니다. 
+
+더이상의 생각이 안들어 다른사람들의 깃을 확인했습니다. 
+api의 함수를 이용해서 푸는 것이 너무 효율적이라는 점을 느겼습니다.
 ```
 
 
@@ -338,10 +398,13 @@ map을 이용한적이 별로 없었는데 연습을 해야한다는 생각을 �
 ### 제한사항
 
 - user는 길이가 1 이상 30 이하인 문자열이다.
+- 사용자 아이디는 알파벳 소문자로만 이루어져 있다.
+- 
 - friends는 길이가 1 이상 10,000 이하인 리스트/배열이다.
 - friends의 각 원소는 길이가 2인 리스트/배열로 [아이디 A, 아이디 B] 순으로 들어있다.
   - A와 B는 친구라는 의미이다.
   - 아이디는 길이가 1 이상 30 이하인 문자열이다.
+  - 
 - visitors는 길이가 0 이상 10,000 이하인 리스트/배열이다.
 - 사용자 아이디는 알파벳 소문자로만 이루어져 있다.
 - 동일한 친구 관계가 중복해서 주어지지 않는다.
@@ -352,3 +415,13 @@ map을 이용한적이 별로 없었는데 연습을 해야한다는 생각을 �
 | user   | friends                                                      | visitors                                      | result                    |
 | ------ | ------------------------------------------------------------ | --------------------------------------------- | ------------------------- |
 | "mrko" | [ ["donut", "andole"], ["donut", "jun"], ["donut", "mrko"], ["shakevan", "andole"], ["shakevan", "jun"], ["shakevan", "mrko"] ] | ["bedi", "bedi", "donut", "bedi", "shakevan"] | ["andole", "jun", "bedi"] |
+
+
+
+7번 참고 
+
+Java - 2차원 리스트 평탄화 (flatten)
+
+https://codechacha.com/ko/java-flatten-list-of-lists/#3-stream%EA%B3%BC-reduce%EB%A1%9C-2%EC%B0%A8%EC%9B%90-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%ED%8F%89%ED%83%84%ED%99%94
+
+[[JAVA\] 자바 배열 ArrayList 중복제거 모든방법](https://lnsideout.tistory.com/entry/JAVA-자바-배열-ArrayList-중복제거-모든방법)
